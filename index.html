@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8"> <!-- utf-8 works for most cases -->
+  <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
+  <title></title> <!-- the <title> tag shows on email notifications on Android 4.4. -->
+  <style type="text/css">
+    
+    /* ensure that clients don't add any padding or spaces around the email design and allow us to style emails for the entire width of the preview pane */
+    body,
+    #bodyTable {
+      height:100% !important;
+      width:100% !important;
+      margin:0;
+      padding:0;
+    }
+    
+    /* Ensures Webkit- and Windows-based clients don't automatically resize the email text. */
+    body,
+    table,
+    td,
+    p,
+    a,
+    li,
+    blockquote {
+      -ms-text-size-adjust:100%;
+      -webkit-text-size-adjust:100%;
+    }
+
+    .btn {
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #787878;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+    
+    /* Forces Yahoo! to display emails at full width */
+    .thread-item.expanded .thread-body .body, .msg-body {
+      width: 100% !important;
+      display: block !important;
+    }
+
+    /* Forces Hotmail to display emails at full width */
+    .ReadMsgBody,
+    .ExternalClass {
+      width: 100%;
+      background-color: #f4f4f4;
+    }
+
+    /* Forces Hotmail to display normal line spacing. */
+    .ExternalClass,
+    .ExternalClass p,
+    .ExternalClass span,
+    .ExternalClass font,
+    .ExternalClass td,
+    .ExternalClass div {
+      line-height:100%;
+    }
+
+    /* Resolves webkit padding issue. */
+    table {
+      border-spacing:0;
+    }
+
+    /* Resolves the Outlook 2007, 2010, and Gmail td padding issue, and removes spacing around tables that Outlook adds. */
+    table,
+    td {
+      border-collapse:collapse;
+      mso-table-lspace:0pt;
+      mso-table-rspace:0pt;
+    }
+    
+    /* Corrects the way Internet Explorer renders resized images in emails. */
+    img {
+      -ms-interpolation-mode: bicubic;
+    }
+    
+    /* Ensures images don't have borders or text-decorations applied to them by default. */
+    img,
+    a img {
+      border:0;
+      outline:none;
+      text-decoration:none;     
+    }
+
+    /* Styles Yahoo's auto-sensing link color and border */
+    .yshortcuts a {
+      border-bottom: none !important;
+    }
+    
+    /* Styles the tel URL scheme */
+    a[href^=tel],
+    .mobile_link,
+    .mobile_link a {
+      color:#222222 !important;
+      text-decoration: underline !Important;
+    }
+  
+    /* Media queries for when the viewport is smaller than the default email width but not too narrow. */
+    @media screen and (max-device-width: 600px), screen and (max-width: 600px) {
+
+      /* Constrains email width for small screens */
+      table[class="email-container"] {
+        width: 100% !important;
+      }
+      /* Constrains tables for small screens */
+      table[class="fluid"] {
+        width: 100% !important;
+      }
+      
+      /* Forces images to resize to full width of their container */
+      img[class="fluid"],
+      img[class="force-col-center"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+      }
+      /* And centers these ones */
+        img[class="force-col-center"] {
+        margin: auto !important;
+      }
+      
+      /* Forces table cells into rows */
+      td[class="force-col"],
+      td[class="force-col-center"] {
+        display: block !important;
+        width: 100% !important;
+        clear: both;
+      }
+      
+      /* And centers these ones */
+      td[class="force-col-center"] {
+        text-align: center !important;
+      }
+      
+      /* Forces table cells into rows */
+      /* Floats a previously stacked image to the left */
+      img[class="col-3-img-l"] {
+        float: none;
+        margin: 15px;
+      }
+      /* Floats a previously stacked image to the right */
+      img[class="col-3-img-r"] {
+        float: none;
+        margin: 15px;
+      }
+      
+      /* Makes buttons full width */
+      table[class="button"] {
+        width: 100% !important;
+      }
+           
+    }
+
+    /* Media queries for when the viewport is narrow. */
+    /* Rules prefixed with 'hh-' (for 'handheld') repeat much of what's above, but these don't trigger until the smaller screen width. */
+    @media screen and (max-device-width: 425px), screen and (max-width: 425px) {
+
+      /* Helper only visible on handhelds. All styles are inline along with a `display:none`, which this class overrides */
+      div[class="hh-visible"] {
+        display: block !important;
+      }
+      
+      /* Center stuff */
+      div[class="hh-center"] {
+        text-align: center;
+        width: 100% !important;
+      }
+      
+      /* Constrain tables for small screens */
+      table[class="hh-fluid"] {
+        width: 100% !important;
+      }
+      
+      /* Force images to resize to full width of their container */
+      img[class="hh-fluid"],
+      img[class="hh-force-col-center"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+      }
+      /* And center these ones */
+      img[class="hh-force-col-center"] {
+        margin: auto !important;
+      }
+      
+      /* Force table cells into rows */
+      td[class="hh-force-col"],
+      td[class="hh-force-col-center"] {
+        display: block !important;
+        width: 100% !important;
+        clear: both;
+      }
+      /* And center these ones */
+      td[class="hh-force-col-center"] {
+        text-align: center !important;
+      }
+      
+      /* Stack the previously floated images */
+      img[class="col-3-img-l"],
+      img[class="col-3-img-r"] {
+        float: none !important;
+        margin: 15px auto !important;
+        text-align: center !important;
+      }
+
+    }
+          
+  </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bgcolor="#F8F8F8" style="margin:0; padding:0; -webkit-text-size-adjust:none; -ms-text-size-adjust:none;">
+<table cellpadding="0" cellspacing="0" border="0" height="100%" width="100%" bgcolor="#F8F8F8" id="bodyTable" style="border-collapse: collapse;table-layout: fixed;margin:0 auto;"><tbody><tr><td>
+
+<!-- CSS Image background in Outlook : BEGIN -->
+<!-- Best used with absolute image paths -->
+<!--[if gte mso 9]>
+  <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+    <v:fill type="tile" color="#f4f4f4" src="assets/nice_snow.png">
+  </v:background>
+<![endif]-->
+<!-- CSS Image background in Outlook : END -->
+
+  <!-- Logo Left, Nav Right, 100% Nav Bar : BEGIN -->
+  <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" bgcolor="#222222" style="text-align: center;">
+    <tbody><tr>
+      <td>
+        <table border="0" width="600" cellpadding="0" cellspacing="0" align="center" style="margin: auto;" class="email-container">
+          <tbody><tr>
+            <td height="10" style="font-size: 0; line-height: 0;">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="hh-force-col-center" valign="middle" style="text-align: center;">
+              <img src="img/mmi-logo@2x.png" alt="MMI Logo" height="40" width="200" border="0">
+            </td>
+          </tr>
+          <tr>
+            <td height="10" style="font-size: 0; line-height: 0;">&nbsp;</td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+  <!-- Logo Left, Nav Right, 100% Nav Bar : END -->
+
+  <!-- Logo Left Nav Right + Vertical Padding : BEGIN -->
+  <table border="0" width="600" cellpadding="0" cellspacing="0" align="center" class="email-container" style="margin: auto; font-family:Arial, san-serif;">
+    <tbody><tr>
+      <td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+      <td height="30"><div style="font-size: 30px;line-height: 1; color:#E73089; font-weight:bold;" class="hh-center">Issue 1 \\ 3rd Quarter Recap</div></td>
+    </tr>
+     <tr>
+      <td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
+    </tr>
+  </tbody></table>
+  <!-- Logo Left Nav Right + Vertical Padding : END -->
+
+ 
+  <!-- Email Container : BEGIN -->
+  <!-- This table wraps the whole body email within it's width (600px), sets the background color (white) and border (thin, gray, solid) -->
+    <table border="0" width="600" cellpadding="0" cellspacing="0" align="center" bgcolor="#ffffff" class="email-container">
+
+    <!-- Full Width, Fluid Column : BEGIN -->
+      <tr>
+        <td style="border-bottom: 1px solid #e5e5e5;">
+          <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center">
+            <tbody><tr>
+              <td style="padding: 30px; font-family: Arial; font-size: 16px; line-height: 22px; color: #606060;">
+                <b>Greetings Esteemed Measured Marketing Team!</b>
+
+                <p>Proudly presented for your entertainment and education is our first ever Measured Marketing Newsletter! The focus for this edition will be something that can make any company go from “somewhat forgettable” to “illustrious!”, “incredible!” and even “extraordinary!” That something is <b>customer service</b> and not only can it put a smile on the face of our customers, it can keep one on yours all day long.</p>
+
+                <p>Check out these halloween pics. You guys look super spooky.</p>
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      <!-- Full Width, Fluid Column : END -->
+  
+      <!-- Single Fluid Image, No Crop : BEGIN -->
+      <tbody><tr>
+        <td>
+          <img src="img/first_newsletter_image_halloween.jpg" alt="Customer Service" width="600" border="0" style="display: block;" class="fluid">
+        </td>
+      </tr>
+      <!-- Single Fluid Image, No Crop : END -->
+    
+      <!-- Full Width, Fluid Column : BEGIN -->
+      <tr>
+        <td style="border-bottom: 1px solid #e5e5e5;">
+          <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center">
+            <tbody><tr>
+              <td style="padding: 30px; font-family: Arial; font-size: 16px; line-height: 22px; color: #606060;">
+
+                <p>Below you will find a few articles guiding you on how to provide and maintain great customer service. Also we are excited to announce that our excellent AM team will be assisting us all soon in how to provide even better service for our clientele. Hope everyone is having a great day and remember: you’re part of a great team!</p>
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      <!-- Full Width, Fluid Column : END -->
+  
+            <!-- Three Column ==> Stacked Wide Layout ==> Stacked Narrow Layout : BEGIN -->  
+      <tr bgcolor="#EEEEEE">
+        <td style="padding: 30px; font-family: Arial; font-size: 20px; color:#E73089; font-weight:bold;">Inspirational Email Designs
+         <br><br> <table border="0" align="center" cellpadding="0" cellspacing="0" class="columns-container">
+            <tbody>
+            <tr>
+              <td width="160" style="padding-right: 30px;font-family: Arial; font-size: 16px; line-height: 22px;color: #444444;" valign="top" class="force-col">
+                <a href="http://reallygoodemails.com/onboarding/new-signup-thredup/"><img src="img/email1@2x.jpg" alt="alt text" align="center" height="160" width="160" border="0" style="display: block;padding-bottom: 10px;" class="col-3-img-r"></a>
+             
+              </td>
+              <td style="font-size: 0; line-height: 0; display: none;" class="hh-spacer">&nbsp;</td>
+              <td width="160" style="padding-right: 30px;font-family: Arial; font-size: 16px; line-height: 22px;color: #444444;" valign="top" class="force-col">
+                <a href="http://reallygoodemails.com/promotion/promotional-print-sale-moo/"><img src="img/email2@2x.jpg" alt="alt text" align="center" height="160" width="160" border="0" style="display: block;padding-bottom: 10px;" class="col-3-img-l"></a>
+
+              </td>
+              <td style="font-size: 0; line-height: 0; display: none;" class="hh-spacer">&nbsp;</td>
+              <td width="160" style="font-family: Arial; font-size: 16px; line-height: 22px;color: #444444;" valign="top" class="force-col">
+                <a href="http://gallery.campaignmonitor.com/ViewEmail/y/2C64D48B52CDE698/C67FD2F38AC4859C"><img src="img/email3@2x.jpg" alt="alt text" align="center" height="160" width="160" border="0" style="display: block;padding-bottom: 10px;" class="col-3-img-r"></a>
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      <!-- Three Column ==> Stacked Wide Layout ==> Stacked Narrow Layout : END -->
+  
+      <!-- Two Columns, With Padding ==> Stacked Layout : BEGIN -->
+      <tr>
+        <td style="border-bottom: 1px solid #e5e5e5;padding: 0 30px;">
+          <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" class="fluid">
+            <tbody><tr>
+              <td height="10" style="font-size: 0; line-height: 0;" class="empty-spacer">&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top" class="hh-force-col" width="100%" style="padding-left: 0;">
+                <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tbody><tr>
+                    <td style="width:100%; font-family: Arial; font-size: 16px; line-height: 22px; color: #606060; text-align: left;">
+                      <div style="font-size: 24px;line-height: 1; color:#E73089; font-weight:bold;" class="hh-center"><br>What We're Reading</div><br>
+                            <h3>A Brief Guide to a Better Email: How to write support emails that your customers will love</h3>
+
+                            <p>Answering truckloads of emails all day can wear down one’s ability to maintain top notch customer service. From the start of the work day to the very end, it’s important to make sure every email comes off as professional, friendly, and helpful all at the same time. This article from HelpScout.net shows the good the bad and the ugly of customer service emails. It suggests which phrases to stay away from, and which ones to make sure you use.</p>
+
+                            <p>Each person we email only has a select few points of contact in our company, even though you may have dozens in theirs. Build rapport! Make them feel comfortable coming to you with questions or concerns! We are here to help and we want to make sure using and selling our product is as simple and easy as possible so they come back time and time again. Read this article for some helpful tips on how to maintain great customer service in our emails!</p><br>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;background-color: #787878; text-align: center;">
+                            <a href="http://www.helpscout.net/guide-to-better-email/" target="_blank" style="color: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 15px; text-align: center; text-decoration: none; display: block; padding: 15px 20px; border: 1px solid #787878; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;">
+                              <b><!--[if mso]>&nbsp;<![endif]-->Read Full Article<!--[if mso]>&nbsp;<![endif]--></b>
+                            </a>
+                          </td>
+                        </tr>
+
+                        <tr><td height="20" style="font-size: 0; line-height: 0;border-bottom: 3px solid #e5e5e5">&nbsp;</td></tr>
+
+                        <tr>
+
+                        <td style="width:100%; font-family: Arial; font-size: 16px; line-height: 22px; color: #606060; text-align: left;"><br>
+                            <h3>15 Tips for Successfully Handling Customer Complaints</h3>
+              
+              <p>The chances are good you have already or may receive a customer complaint, either from a sales representative or an un-satisfied client. Although a complaint like this can cause frustration, have you ever looked at criticism from a client as an opportunity to create and maintain a positive relationship towards the future? Well, according to Gregory Ciotti, your outlook should be just that!</p>
+
+              <p><b><i>“I genuinely believe that any business can create a competitive advantage through giving outstanding customer care.”</i><br> – <a href="https://twitter.com/garyvee" style="color: #E73089; text-decoration:none">Gary Vaynerchuk</a></b></p>
+
+              <p>Although handling complaints correctly takes practice and persistence, the opportunity that can come from satisfying a disgruntled client can yield a large reward in the future. Throughout the entirety of Ciotti’s article, he dives in to strategies for handling customer complaints. He describes how handling a complaint incorrectly can “hurt the bottom line.” With this being said, the featured article focuses on 15 well thought out tips, for successfully handling these kind of complaints and why they should matter to you.</p><br>
+
+                            </td>
+                              </tr>
+                            <tr>
+                          <td style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;background-color: #787878; text-align: center;">
+                            <a href="https://www.helpscout.net/blog/customer-complaints/" target="_blank" style="color: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 15px; text-align: center; text-decoration: none; display: block; padding: 15px 20px; border: 1px solid #787878; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;">
+                              <b><!--[if mso]>&nbsp;<![endif]-->Read Full Article<!--[if mso]>&nbsp;<![endif]--></b>
+                            </a>
+                          </td>
+                        </tr>
+                       <tr><td height="20" style="font-size: 0; line-height: 0;border-bottom: 3px solid #e5e5e5">&nbsp;</td></tr>
+                       <tr>
+                    <td style="width:100%; font-family: Arial; font-size: 16px; line-height: 22px; color: #606060; text-align: left;"> <div style="font-size: 24px;line-height: 1; color:#555555; font-weight:bold;" class="hh-center"><br>Links from Around the Web</div>
+                    <ul>
+                      <li>How Better Customer Service <a href="http://www.helpscout.net/blog/client-care/" style="color: #E73089; text-decoration:none">Attracts and Retains Better Clients </a></li>
+                      <li><a href="http://sivers.org/cs" style="color: #E73089; text-decoration:none">The 6 Key Mindsets</a> That Guide Great Customer Service</li>
+                      <li>Turning Your Marketing Upside Down: <a href="http://blog.bufferapp.com/upside-down-funnel" style="color: #E73089; text-decoration:none">Why You Should Put More Focus on Existing Customers</a></li>
+                    </ul>
+
+                    </td></tr>
+
+                </tbody></table>
+              </td>
+            </tr>
+            <tr>
+              <td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      <!-- Two Columns, With Padding ==> Stacked Layout : END -->
+  
+      <!-- Single Fluid Image, No Crop : BEGIN -->
+      <tbody><tr>
+        <td>
+          <img src="img/writing@2x.png" alt="Customer Service" width="600" border="0" style="display: block;" class="fluid">
+        </td>
+      </tr>
+      <!-- Single Fluid Image, No Crop : END -->
+
+      <!-- Full Width, Fluid Column : BEGIN -->
+      <tr>
+        <td style="border-bottom: 1px solid #e5e5e5;">
+          <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center">
+            <tbody><tr>
+              <td style="padding: 30px; font-family: Arial; font-size: 16px; line-height: 22px; color: #606060;">
+                <b>Did you enjoy reading this newsletter?</b>
+
+                <p>Proudly presented for your entertainment and education is our first ever Measured Marketing Newsletter! The focus for this edition will be something that can make any company go from “somewhat forgettable” to “illustrious!”, “incredible!” and even “extraordinary!” That something is <b>customer service</b> and not only can it put a smile on the face of our customers, it can keep one on yours all day long.</p>
+
+                <p>Check out these halloween pics. You guys look super spooky.</p>
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      <!-- Full Width, Fluid Column : END -->
+
+      <!-- Full Width, Fluid Column : BEGIN -->
+      <tr>
+        <td style="border-bottom: 1px solid #e5e5e5;">
+          <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center">
+            <tbody><tr>
+              <td style="padding: 5px;" bgcolor="#e5e5e5">
+            
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      <!-- Full Width, Fluid Column : END -->
+
+  </tbody></table>
+  <!-- Email Container : END -->
+
+  <!-- Logo Left Nav Right + Vertical Padding : BEGIN -->
+  <table border="0" width="600" cellpadding="0" cellspacing="0" align="center" class="email-container" style="margin: auto;">
+    <tbody>
+    <tr>
+      <td height="50" style="font-size: 0; line-height: 0;">&nbsp;</td>
+    </tr>
+  </tbody></table>
+  <!-- Logo Left Nav Right + Vertical Padding : END -->
+
+</td></tr></tbody></table>
+
+            </body></html>
